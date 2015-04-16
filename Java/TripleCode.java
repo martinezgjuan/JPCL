@@ -1,5 +1,7 @@
 package Juan;
 
+import java.util.Comparator;
+
 /**
  * @author Juan Martínez (https://www.linkedin.com/in/martinezgjuan)
  * @tested FBHC2015_Qual3, UVA_11367
@@ -29,9 +31,10 @@ public class TripleCode {
 
 		@Override
 		public boolean equals(Object other) {
-			if (!this.first.equals(((Triple<U,V,W>)other).first) || !this.second.equals(((Triple<U,V,W>)other).second) || !this.third.equals(((Triple<U,V,W>)other).third))
-				return false;
-			return true;
+		  U otherFirst = ((Triple<U,V,W>)other).first;
+		  V otherSecond = ((Triple<U,V,W>)other).second;
+		  W otherThird = ((Triple<U,V,W>)other).third;
+			return this.first.equals(otherFirst) && this.second.equals(otherSecond) && !this.third.equals(otherThird);
 		}
 
 		@Override
