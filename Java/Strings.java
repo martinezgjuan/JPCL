@@ -37,34 +37,38 @@ public class Strings {
   }
 
   /**
-   * Left pads a string to a length <code>n</code> (<code>n</code> >= |<code>str</code>|) with the character
-   * <code>c</code>
+   * Left pads a string to a length <code>n</code> (<code>n</code> >= |<code>str</code>|) with the
+   * character <code>c</code>
    * 
    * @time O(n)
    */
   public static String padLeft(String str, int n, char c) {
-    if (str.length() >= n)
+    if (str.length() >= n) {
       return str;
+    }
     StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < n - str.length(); i++)
+    for (int i = 0; i < n - str.length(); i++) {
       sb.append(c);
+    }
     sb.append(str);
     return sb.toString();
   }
 
   /**
-   * Right pads a string to a length <code>n</code> (<code>n</code> >= |<code>str</code>|) with the character
-   * <code>c</code>
+   * Right pads a string to a length <code>n</code> (<code>n</code> >= |<code>str</code>|) with the
+   * character <code>c</code>
    * 
    * @time O(n)
    */
   public static String padRight(String str, int n, char c) {
-    if (str.length() >= n)
+    if (str.length() >= n) {
       return str;
+    }
     StringBuilder sb = new StringBuilder();
     sb.append(str);
-    for (int i = 0; i < n - str.length(); i++)
+    for (int i = 0; i < n - str.length(); i++) {
       sb.append(c);
+    }
     return sb.toString();
   }
 
