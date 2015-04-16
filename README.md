@@ -14,7 +14,7 @@ Most classes/methods have been tested with problems from online judges and such 
 #### List of implemented classes/methods (in the "Java" directory):
 
 * Graph
-  * Biconnected Components
+  * Biconnected Components, Articulation Points & Bridges
   * Graph Traversal
   * GraphUniqueEdge: Graph class without edge repetitions (unweighted edges)
   * GraphUnweighted: Simple graph class with unweighted edges
