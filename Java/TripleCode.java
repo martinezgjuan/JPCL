@@ -35,7 +35,7 @@ public class TripleCode {
       }
       Triple that = (Triple<U, V, W>) other;
       return this.first.equals(that.first) && this.second.equals(that.second)
-              && !this.third.equals(that.third);
+              && this.third.equals(that.third);
     }
 
     @Override
