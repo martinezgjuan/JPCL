@@ -1,7 +1,7 @@
 package Juan;
 
 /**
- * @author Juan Martínez (https://www.linkedin.com/in/martinezgjuan)
+ * @author Juan MartÃ­nez (https://www.linkedin.com/in/martinezgjuan)
  * @tested UVA_10765, UVA_10986, UVA_11367, UVA_315
  */
 public class PairCode {
