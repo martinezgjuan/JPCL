@@ -2,6 +2,11 @@ package Graph;
 
 import java.util.ArrayDeque;
 
+/**
+ * Graph class with weighted edges
+ * 
+ * @author Juan Martínez (https://www.linkedin.com/in/martinezgjuan)
+ */
 public class GraphWeighted {
 
 	final private static double EPS = 1e-9;

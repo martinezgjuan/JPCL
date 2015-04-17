@@ -2,9 +2,6 @@ package Graph;
 
 import java.util.ArrayDeque;
 
-import Graph.GraphUniqueEdge.GraphUE;
-import Graph.GraphUnweighted.Graph;
-
 /**
  * The resulting strongly connected components are a reverse topological sort of the DAG
  * 
@@ -14,8 +11,8 @@ import Graph.GraphUnweighted.Graph;
  */
 public class StronglyConnectedComponents {
 	
-	static Graph g;
-	static boolean[] vis;	// Visited flag	
+	static Graph graph;
+	static boolean[] visited;	// Visited flag	
 	static int[] low;		// Lowest step node that can be visited from i	
 	static int step;		// Number of nodes already visited
 	static ArrayDeque<Integer> Stack;
@@ -23,32 +20,35 @@ public class StronglyConnectedComponents {
 	static int countSCC;	// Number of SCC's in the graph
 	
 	static void tarjanSCC() {
-		vis = new boolean[g.getNumVertices()];		
-		low = new int[g.getNumVertices()];
+		visited = new boolean[graph.getNumVertices()];		
+		low = new int[graph.getNumVertices()];
 		step = 0;
 		Stack = new ArrayDeque<Integer>();
-		id = new int[g.getNumVertices()];
+		id = new int[graph.getNumVertices()];
 		countSCC = 0;		
 		
-		for (int i = 0; i < g.getNumVertices(); i++)
-			if(!vis[i])
-				DFStarjanSCC(i);				
+		for (int i = 0; i < graph.getNumVertices(); i++) {
+			if(!visited[i]) {
+				DFStarjanSCC(i);
+			}
+		}
 	}
 	
-	static void DFStarjanSCC(int act) {
-		vis[act] = true;
-		low[act] = step++;
-		int min = low[act];
-		Stack.addLast(act);
+	static void DFStarjanSCC(int cur) {
+		visited[cur] = true;
+		low[cur] = step++;
+		int min = low[cur];
+		Stack.addLast(cur);
 		
-		for (int nei : g.getAdjacent(act)) {
-			if(!vis[nei])
-				DFStarjanSCC(nei);
-			min = Math.min(min,low[nei]);
+		for (int next : graph.getAdjacent(cur)) {
+			if(!visited[next]) {
+				DFStarjanSCC(next);
+			}
+			min = Math.min(min,low[next]);
 		}
 		
-		if(min < low[act]) {
-			low[act] = min;
+		if(min < low[cur]) {
+			low[cur] = min;
 			return;
 		}
 		
@@ -57,23 +57,22 @@ public class StronglyConnectedComponents {
 		do {	// As the node act is the root of its SCC subtree, we pop all the subtree until act
 			nodeSCC = Stack.removeLast();
 			id[nodeSCC] = countSCC;
-			low[nodeSCC] = g.getNumVertices();
-		} while (nodeSCC != act);
+			low[nodeSCC] = graph.getNumVertices();
+		} while (nodeSCC != cur);
 		
 		countSCC++;		
 	}
 	
-
 	/**
 	 * Returns the Directed Acyclic Graph formed with the contracted Strongly Connected Components.
 	 * The returned graph doesn't have self-loops but might have parallel edges.
 	 */
-	static Graph getSCCDAG() {
+	static Graph getSccDag() {
 		Graph dag = new Graph(countSCC);
-		for (int i = 0; i < g.getNumVertices(); i++) {
-			for (int nei : g.getAdjacent(i)) {
-				if(id[i] != id[nei]) {
-					dag.addDirectedEdge(id[i], id[nei]);
+		for (int cur = 0; cur < graph.getNumVertices(); cur++) {
+			for (int next : graph.getAdjacent(cur)) {
+				if(id[cur] != id[next]) {
+					dag.addDirectedEdge(id[cur], id[next]);
 				}
 			}
 		}		
@@ -84,12 +83,12 @@ public class StronglyConnectedComponents {
 	 * Returns the Directed Acyclic Graph formed with the contracted Strongly Connected Components.
 	 * The returned graph doesn't have parallel edges or self-loops.
 	 */
-	static GraphUE getSimplifiedSCCDAG() {
-		GraphUE dag = new GraphUE(countSCC);
-		for (int i = 0; i < g.getNumVertices(); i++) {
-			for (int nei : g.getAdjacent(i)) {
-				if(id[i] != id[nei]) {
-					dag.addDEdge(id[i], id[nei]);
+	static GraphUniqueEdge getSimplifiedSccDag() {
+	  GraphUniqueEdge dag = new GraphUniqueEdge(countSCC);
+		for (int cur = 0; cur < graph.getNumVertices(); cur++) {
+			for (int next : graph.getAdjacent(cur)) {
+				if(id[cur] != id[next]) {
+					dag.addDEdge(id[cur], id[next]);
 				}
 			}
 		}		

@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import Graph.GraphUnweighted.Graph;
 import Graph.GraphWeighted.Edge;
 
 /**
- * Beware of single node components which are not stored as the algorithm stores
- * edges.
+ * Beware of single node components which are not stored as the algorithm stores edges.
  * 
  * @time O(|V| + |E|). About 20% faster when only finding articulation points.
  * @author Juan Martínez (https://www.linkedin.com/in/martinezgjuan)
@@ -112,9 +110,8 @@ public class BiconnectedComponents {
     graph.addUndirectedEdge(4, 5);
 
     /*
-     * g = new Graph(9); g.addUEdge(0, 1); g.addUEdge(1, 2); g.addUEdge(3, 4);
-     * g.addUEdge(4, 5); g.addUEdge(5, 6); g.addUEdge(6, 7); g.addUEdge(2, 8);
-     * g.addUEdge(8, 1);
+     * g = new Graph(9); g.addUEdge(0, 1); g.addUEdge(1, 2); g.addUEdge(3, 4); g.addUEdge(4, 5);
+     * g.addUEdge(5, 6); g.addUEdge(6, 7); g.addUEdge(2, 8); g.addUEdge(8, 1);
      */
 
     biconnectedComp(true);

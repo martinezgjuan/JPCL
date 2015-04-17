@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.TreeSet;
 
-import Graph.GraphUnweighted.Graph;
 import Graph.GraphWeighted.Edge;
 import Graph.GraphWeighted.GraphWE;
 
@@ -31,9 +30,9 @@ public class TopologicalSort {
 		ArrayDeque<Integer> res = new ArrayDeque<Integer>();
 
 		for (int u = 0; u < graph.getNumVertices(); u++) {
-			if(visited[u])
+			if(visited[u]) {
 				continue;
-
+			}
 			nodeTo[u] = -1;
 
 			ArrayDeque<Integer> stack = new ArrayDeque<Integer>();
@@ -53,8 +52,8 @@ public class TopologicalSort {
 				}
 				if(last) { // Add in the stack if it is the last node in the dfs branch
 					res.addFirst(node);
-
-					int aux = node; // Close the node for the parent and close the parent recursively if it has no more children open
+					
+					int aux = node; // Close the node for the parent and close the parent recursively if it has no more children open					
 					while(nodeTo[aux] != -1 && --count[nodeTo[aux]] == 0) { 
 						aux = nodeTo[aux];
 						res.addFirst(aux);						
@@ -193,15 +192,19 @@ public class TopologicalSort {
 	static void printLexTopSorts(Graph graph) {
 		int[] countIn = new int[graph.getNumVertices()];
 
-		for (int i = 0; i < graph.getNumVertices(); i++)
-			for (int node : graph.getAdjacent(i))
+		for (int i = 0; i < graph.getNumVertices(); i++) {
+			for (int node : graph.getAdjacent(i)) {
 				countIn[node]++;
+			}
+		}
 		
 		TreeSet<Integer> sortedInts = new TreeSet<Integer>();
 		
-		for (int i = 0; i < graph.getNumVertices(); i++)
-			if(countIn[i] == 0)
+		for (int i = 0; i < graph.getNumVertices(); i++) {
+			if(countIn[i] == 0) {
 				sortedInts.add(i);
+			}
+		}
 		
 		printTopSorts(graph, sortedInts, new ArrayList<Integer>(), countIn);
 	}

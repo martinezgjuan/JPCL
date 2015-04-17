@@ -4,8 +4,6 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import Graph.GraphUnweighted.Graph;
-
 /**
  * @author Juan Martínez (https://www.linkedin.com/in/martinezgjuan)
  */
@@ -108,8 +106,9 @@ public class MiscGraph {
           } else {
             if (evenColor[next] == evenColor[curNode]) {
               isBipartite = false; // The graph is not bipartite
-              if (!finishCC)
+              if (!finishCC) {
                 return false;
+              }
             }
           }
         }
@@ -180,7 +179,7 @@ public class MiscGraph {
   /**
    * Whether there is a cycle in the given graph
    */
-  static boolean hasCycle(Graph graph, boolean directed) {
+  static boolean hasCycle(Graph graph, boolean isDirected) {
     boolean[] visited = new boolean[graph.getNumVertices()];
     int[] nodeTo = new int[graph.getNumVertices()];
 
@@ -197,7 +196,7 @@ public class MiscGraph {
         int node = stack.pop();
         visited[node] = true;
         for (int next : graph.getAdjacent(node)) {
-          if (nodeTo[node] == next && !directed) {
+          if (nodeTo[node] == next && !isDirected) {
             continue;
           }
           if (!visited[next]) {

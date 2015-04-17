@@ -2,8 +2,9 @@ package Graph;
 
 import java.util.ArrayDeque;
 
-import Graph.GraphUnweighted.Graph;
-
+/**
+ * @author Juan Martínez (https://www.linkedin.com/in/martinezgjuan)
+ */
 public class GraphTraversal {
 	
 	/***********************************/
