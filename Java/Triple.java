@@ -1,7 +1,7 @@
 package Juan;
 
 /**
- * @author Juan Martínez (https://www.linkedin.com/in/martinezgjuan)
+ * @author Juan MartÃ­nez (https://www.linkedin.com/in/martinezgjuan)
  * @tested FBHC2015_Qual3, UVA_11367
  */
 public class TripleCode {
