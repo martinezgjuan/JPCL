@@ -3,7 +3,7 @@
 JPCL is a Java library intended for programming contests.
 
 #### Static methods to copy-and-paste in your code
-The different classes and methods are implemented with the goal of being able to easily and rapidly copy-and-paste them in the solutions of the contest problems. This (unfortunately) often results in a lack of object-oriented design and a considerable number of global variables. For example, some classes are called < Name >Code and they contain a static inner class called < Name > which can just be copied in the code and used directly. This can help saving valuable contest time since most programming contests only allow to upload one file with all the code needed to solve each problem.
+The different classes and methods are implemented with the goal of being able to easily and rapidly copy-and-paste them in the solutions of the contest problems. This can very helpful in programming contests since most of them only allow to upload one file with all the code needed to solve each problem. Unfortunately, this also often results in a lack of object-oriented design and a considerable number of global variables.
 
 #### Template with fast IO
 A programming contest template is also included, containing (as a compact inner-class) the essential methods needed for efficient IO operations which are vital in many on-line contests.
