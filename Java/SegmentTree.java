@@ -3,7 +3,7 @@ package Juan;
 import java.util.Arrays;
 
 /**
- * @author Juan Martínez (https://www.linkedin.com/in/martinezgjuan)
+ * @author Juan MartÃ­nez (https://www.linkedin.com/in/martinezgjuan)
  * @tested SPOJ_HORRIBLE, SPOJ_GSS1, SPOJ_GSS3, CF #275 Div1 B
  */
 public class SegmentTreeCode {
