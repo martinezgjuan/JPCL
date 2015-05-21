@@ -1,6 +1,7 @@
 package Graph;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 
 /**
  * @author Juan Martínez (https://www.linkedin.com/in/martinezgjuan)
@@ -86,19 +87,20 @@ public class GraphTraversal {
 		distTo = new int[graph.getNumVertices()];
 		ArrayDeque<Integer> queue = new ArrayDeque<Integer>();
 		queue.add(source);
+		
+		Arrays.fill(distTo, -1);
 		distTo[source] = 0;
 
 		while (!queue.isEmpty()) {
 			int node = queue.removeFirst();
-			if(visited[node])
+			if(visited[node]) {
 				continue;
+			}
 			visited[node] = true;
 
 			for (int next : graph.getAdjacent(node)) {
-				if (!visited[next]) {
-					distTo[next] = distTo[node] + 1;
-					nodeTo[next] = node;
-					queue.addLast(next);
+				if (!visited[next] && distTo[next] == -1) {
+				  queue.addLast(next);
 				}
 			}
 		}

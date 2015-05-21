@@ -7,7 +7,9 @@ import java.util.ArrayDeque;
  * 
  * @author Juan Martínez (https://www.linkedin.com/in/martinezgjuan)
  */
-public class GraphWeighted {
+public class GraphWeightedDouble {
+
+  final private static double EPS = 1e-8;
 
   static class GraphWE {
     private final int numVertices;
@@ -58,9 +60,9 @@ public class GraphWeighted {
       numEdges++;
     }
 
-    public void addUEdge(int from, int to, int l) {
-      adj[from].add(new Edge(from, to, l));
-      adj[to].add(new Edge(to, from, l));
+    public void addUEdge(int from, int to, int weight) {
+      adj[from].add(new Edge(from, to, weight));
+      adj[to].add(new Edge(to, from, weight));
       numEdges++;
     }
 
@@ -87,14 +89,12 @@ public class GraphWeighted {
   }
 
   static class Edge implements Comparable<Edge> {
-    public final int from;
-    public final int to;
-    public final int weight;
+    public final int from, to, weight;
 
-    Edge(int from, int to, int l) {
+    Edge(int from, int to, int weight) {
       this.from = from;
       this.to = to;
-      this.weight = l;
+      this.weight = weight;
     }
 
     Edge(int from, int to) {
@@ -103,20 +103,9 @@ public class GraphWeighted {
       this.weight = 1;
     }
 
-    @Override
-    public boolean equals(Object other) {
-      Edge that = (Edge) other;
-      return this.from == that.from && this.to == that.to;
-    }
-
-    @Override
-    public int hashCode() {
-      return 31 * (527 + from) + to;
-    }
-
     public int compareTo(Edge that) {
-      if (this.weight != that.weight) {
-        return Integer.compare(this.weight, that.weight);
+      if (Math.abs(this.weight - that.weight) > EPS) {
+        return Double.compare(this.weight, that.weight);
       } else if (this.from != that.from) {
         return Integer.compare(this.from, that.from);
       } else {
