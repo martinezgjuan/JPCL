@@ -1,5 +1,6 @@
-import java.io.IOException; 
+import java.io.IOException;
 import java.math.BigInteger;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -13,6 +14,7 @@ public class Misc {
 
   /**
    * Bijection between Pairs of Integers and Integers
+   * 
    * @tested UVA_11367, UVA_11380
    */
   static int maxSecond;
@@ -27,6 +29,7 @@ public class Misc {
 
   /**
    * Swaps two given elements in an array
+   * 
    * @time O(1)
    */
   static void swap(int[] array, int indA, int indB) {
@@ -37,6 +40,7 @@ public class Misc {
 
   /**
    * Finds the kth largest element in an array
+   * 
    * @time O(n)
    */
   static int quickSelect(int[] array, int k) {
@@ -71,9 +75,10 @@ public class Misc {
     }
     return left;
   }
-  
+
   /**
-   * Maximum subarray sum 
+   * Maximum subarray sum
+   * 
    * @time O(n)
    * @tested UVA_105 UVA_507 UVA_10684 UVA_10827
    */
@@ -102,9 +107,10 @@ public class Misc {
     }
     return new int[] { maxSum, bestStart, bestEnd };
   }
-  
+
   /**
-   * Maximum subrectangle sum 
+   * Maximum subrectangle sum
+   * 
    * @time O(n ^ 3)
    * @tested UVA_105 UVA_10827
    */
@@ -135,9 +141,10 @@ public class Misc {
     }
     return new int[] { maxSum, bestStartRow, bestEndRow, bestStartCol, bestEndCol };
   }
-  
+
   /**
    * Maximum (non-empty) subarray product
+   * 
    * @time O(n) (Note: time consuming BigInteger multiplications)
    * @tested UVA_787
    */
@@ -185,10 +192,84 @@ public class Misc {
   }
 
   /**
-   * Generates all the permutations of the given array
-   * Recursive collection input version - O(n!) about 4.2 seconds for size 10
-   * and 100ms for size 9
-   */ 
+   * Finds the rectangle of maximum area formed with only false elements in the boolean grid
+   * @time O(n*m)
+   * @tested Yandex2015_R3_C
+   */
+  static int maxRectangleBooleanGrid(boolean[][] grid) {
+    int rows = grid.length;
+    int cols = grid[0].length;
+    
+    int[][] emptyAbove = new int[rows][cols];
+    
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        if (!grid[i][j]) {
+          if (i > 0) {
+            emptyAbove[i][j] = emptyAbove[i - 1][j];
+          }
+          emptyAbove[i][j]++;
+        }
+      }
+    }
+    
+    int max = 0;
+    for (int i = 0; i < rows; i++) {
+      max = Math.max(max, maxRectangleHist(emptyAbove[i]));
+    }
+    return max;
+  }
+  
+  /**
+   * Finds the rectangle of maximum area under the given Histogram
+   * @time O(n)
+   * @tested Yandex2015_R3_C
+   */
+  static int maxRectangleHist(int[] hist) {
+    int numElements = hist.length;
+    int[] lowerLeft = new int[numElements]; // Index of first element to the left lower than hist[i]
+    int[] lowerRight = new int[numElements]; // Index of first element to the right lower than hist[i]
+    
+    ArrayDeque<Integer> stack = new ArrayDeque<Integer>(numElements/2 + 1);
+    
+    for (int i = 0; i < numElements; i++) {
+      while (!stack.isEmpty() && hist[stack.getLast()] >= hist[i]) {
+        stack.removeLast();
+      }
+      if (stack.isEmpty()) {
+        lowerLeft[i] = -1;
+      } else {
+        lowerLeft[i] = stack.getLast();
+      }
+      stack.addLast(i);
+    }
+    
+    stack = new ArrayDeque<Integer>(numElements/2 + 1);
+    
+    for (int i = numElements-1; i >=0; i--) {
+      while (!stack.isEmpty() && hist[stack.getLast()] >= hist[i]) {
+        stack.removeLast();
+      }
+      if (stack.isEmpty()) {
+        lowerRight[i] = numElements;
+      } else {
+        lowerRight[i] = stack.getLast();
+      }
+      stack.addLast(i);
+    }
+    
+    int res = 0;
+    for (int i = 0; i < numElements; i++) {
+      res = Math.max(res, hist[i] * (lowerRight[i] - lowerLeft[i] - 1));
+    }
+    
+    return res;
+  }
+  
+  /**
+   * Generates all the permutations of the given array Recursive collection input version - O(n!)
+   * about 4.2 seconds for size 10 and 100ms for size 9
+   */
   static <T> ArrayList<ArrayList<T>> permutations(ArrayList<T> arr) {
     T out = arr.remove(0);
     ArrayList<ArrayList<T>> resIn;
@@ -209,11 +290,10 @@ public class Misc {
     return res;
   }
 
-  /** 
-   * Generates all the permutations of the given array
-   * Iterative collection input version - O(n!) about 2 seconds for size 10
-   * and 100ms for size 9
-   */ 
+  /**
+   * Generates all the permutations of the given array Iterative collection input version - O(n!)
+   * about 2 seconds for size 10 and 100ms for size 9
+   */
   static <T> ArrayList<ArrayList<T>> permute(ArrayList<T> arr) {
     ArrayList<ArrayList<T>> result = new ArrayList<ArrayList<T>>();
     result.add(new ArrayList<T>());
@@ -231,10 +311,9 @@ public class Misc {
     return result;
   }
 
-  /** 
-   * Generates all the permutations of the given array
-   * Iterative array input version - O(n!) about 2 seconds for size 10 and
-   * 100ms for size 9
+  /**
+   * Generates all the permutations of the given array Iterative array input version - O(n!) about 2
+   * seconds for size 10 and 100ms for size 9
    */
   static <T> ArrayList<ArrayList<T>> permute(T[] arr) {
     ArrayList<ArrayList<T>> result = new ArrayList<ArrayList<T>>();
@@ -254,27 +333,28 @@ public class Misc {
   }
 
   /**
-   * Modifies a Collection of Objects into the next lexicographic permutation of
-   * its elements if it is possible.
+   * Modifies a Collection of Objects into the next lexicographic permutation of its elements if it
+   * is possible.
    * 
-   * @param list Collection of elements to be modified
+   * @param list
+   *          Collection of elements to be modified
    * @return <code>true</code> if another permutation was possible
-   * @time O(|arr|). Performance test: 0.58 seconds to traverse through all the
-   *       permutations of an array of 11 elements
+   * @time O(|arr|). Performance test: 0.58 seconds to traverse through all the permutations of an
+   *       array of 11 elements
    * @tested UVa_146
    */
   public static <T extends Comparable<T>> boolean nextPermutation(List<T> list) {
     for (int i = list.size() - 2; i >= 0; --i) {
       // Search for the last increasing pair of consecutive numbers
-      if (list.get(i).compareTo(list.get(i + 1)) < 0) { 
+      if (list.get(i).compareTo(list.get(i + 1)) < 0) {
         for (int j = list.size() - 1;; --j) {
           // Search for the last number bigger than list[i] and swap them
-          if (list.get(j).compareTo(list.get(i)) > 0) { 
+          if (list.get(j).compareTo(list.get(i)) > 0) {
             T temp = list.get(i);
             list.set(i, list.get(j));
             list.set(j, temp);
             // Reverse the (already decreasing) sublist after the position i
-            for (++i, j = list.size() - 1; i < j; ++i, --j) { 
+            for (++i, j = list.size() - 1; i < j; ++i, --j) {
               temp = list.get(i);
               list.set(i, list.get(j));
               list.set(j, temp);
@@ -288,14 +368,14 @@ public class Misc {
   }
 
   /**
-   * Modifies an array of Objects into the next lexicographic permutation of its
-   * elements if it is possible.
+   * Modifies an array of Objects into the next lexicographic permutation of its elements if it is
+   * possible.
    * 
    * @param arr
    *          Array of elements to be modified
    * @return <code>true</code> if another permutation was possible
-   * @time O(|arr|). Performance test: 0.58 seconds to traverse through all the
-   *       permutations of an array of 11 elements
+   * @time O(|arr|). Performance test: 0.58 seconds to traverse through all the permutations of an
+   *       array of 11 elements
    * @tested UVa_146
    */
   public static <T extends Comparable<T>> boolean nextPermutation(T[] arr) {
@@ -323,14 +403,14 @@ public class Misc {
   }
 
   /**
-   * Modifies an array or primitives into the next lexicographic permutation of
-   * its elements if it is possible.
+   * Modifies an array or primitives into the next lexicographic permutation of its elements if it
+   * is possible.
    * 
    * @param arr
    *          Array of elements to be modified
    * @return <code>true</code> if another permutation was possible
-   * @time O(|arr|). Performance test: 0.58 seconds to traverse through all the
-   *       permutations of an array of 11 elements
+   * @time O(|arr|). Performance test: 0.58 seconds to traverse through all the permutations of an
+   *       array of 11 elements
    * @tested UVa_146
    */
   static boolean nextPermutation(int[] arr) {
@@ -358,7 +438,8 @@ public class Misc {
   }
 
   /**
-   * Generates all the subsets of the given set 
+   * Generates all the subsets of the given set
+   * 
    * @time O((2 ^ n) * n)
    */
   static <T> ArrayList<ArrayList<T>> subsets(ArrayList<T> arr) {
@@ -378,6 +459,7 @@ public class Misc {
 
   /**
    * Reverts the order of the given array between the indexes provided
+   * 
    * @time O(to - from)
    * @extraSpace O(1)
    */
@@ -391,6 +473,7 @@ public class Misc {
 
   /**
    * Converts the given collection into an array
+   * 
    * @time O(n)
    */
   public static int[] toArray(Collection<Integer> collection) {
@@ -403,6 +486,7 @@ public class Misc {
 
   /**
    * Converts the given iterable into an ArrayList
+   * 
    * @time O(n)
    */
   public static <T> ArrayList<T> toArrayList(Iterable<T> iterable) {
@@ -414,6 +498,7 @@ public class Misc {
 
   /**
    * Counts the number of elements in the iterable equal to specified element
+   * 
    * @time O(n)
    */
   public static <T> int count(Iterable<T> iterable, T sample) {
@@ -427,6 +512,7 @@ public class Misc {
 
   /**
    * Finds the minimum element in the given iterable
+   * 
    * @time O(n)
    */
   @SuppressWarnings("unchecked")
@@ -441,6 +527,7 @@ public class Misc {
 
   /**
    * Finds the maximum element in the given iterable
+   * 
    * @time O(n)
    */
   @SuppressWarnings("unchecked")
@@ -455,6 +542,7 @@ public class Misc {
 
   /**
    * Returns a bit mask representing the digits used by the input number
+   * 
    * @tested UVA_725
    */
   public static int digitsUsed(int number) {
