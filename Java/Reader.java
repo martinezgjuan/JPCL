@@ -3,7 +3,7 @@ import java.io.IOException;
 /**
  * @author Juan Martínez (https://www.linkedin.com/in/martinezgjuan)
  */
-public class Reader {
+class Reader {
   final private int BUFFER_SIZE = 1 << 12;
   private byte[] buffer;
   private int bufferPointer, bytesRead;
@@ -109,10 +109,10 @@ public class Reader {
   }
 
   public double nextDouble() throws IOException {
+    consumeSpaces();
     double ret = 0;
     double div = 1;
     byte c = read();
-    consumeSpaces();
     boolean neg = (c == '-');
     if (neg) {
       c = read();
