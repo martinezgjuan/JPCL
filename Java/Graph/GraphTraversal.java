@@ -81,30 +81,31 @@ public class GraphTraversal {
 	/**
 	 * @tested UVA_429
 	 */
-	static void bfs(int source) {
-		visited = new boolean[graph.getNumVertices()];
-		nodeTo = new int[graph.getNumVertices()];
-		distTo = new int[graph.getNumVertices()];
-		ArrayDeque<Integer> queue = new ArrayDeque<Integer>();
-		queue.add(source);
-		
-		Arrays.fill(distTo, -1);
-		distTo[source] = 0;
+  static void bfs(int source) {
+    visited = new boolean[graph.getNumVertices()];
+    nodeTo = new int[graph.getNumVertices()];
+    distTo = new int[graph.getNumVertices()];
+    ArrayDeque<Integer> queue = new ArrayDeque<Integer>();
+    queue.add(source);
+    
+    Arrays.fill(distTo, -1);
+    distTo[source] = 0;
 
-		while (!queue.isEmpty()) {
-			int node = queue.removeFirst();
-			if(visited[node]) {
-				continue;
-			}
-			visited[node] = true;
+    while (!queue.isEmpty()) {
+      int node = queue.removeFirst();
+      if(visited[node]) {
+        continue;
+      }
+      visited[node] = true;
 
-			for (int next : graph.getAdjacent(node)) {
-				if (!visited[next] && distTo[next] == -1) {
-				  queue.addLast(next);
-				}
-			}
-		}
-	}
+      for (int next : graph.getAdjacent(node)) {
+        if (!visited[next] && distTo[next] == -1) {
+          queue.addLast(next);
+          distTo[next] = distTo[node] + 1; 
+        }
+      }
+    }
+  }
 
 	// Use after running DFS or BFS from node u
 	static ArrayDeque<Integer> pathTo(int from, int to) {
