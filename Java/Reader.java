@@ -4,6 +4,7 @@ import java.io.IOException;
  * @author Juan Martínez (https://www.linkedin.com/in/martinezgjuan)
  */
 class Reader {
+  boolean consume = false;
   final private int BUFFER_SIZE = 1 << 12;
   private byte[] buffer;
   private int bufferPointer, bytesRead;
@@ -47,7 +48,10 @@ class Reader {
     do {
       sb.append((char) c);
     } while ((c = read()) > ' ');
-    consumeSpaces();
+    if (consume) {
+      consumeSpaces();
+    }
+    ;
     if (sb.length() == 0) {
       return null;
     }
@@ -83,7 +87,9 @@ class Reader {
     do {
       ret = ret * 10 + c - '0';
     } while ((c = read()) >= '0' && c <= '9');
-    consumeSpaces();
+    if (consume) {
+      consumeSpaces();
+    }
     if (neg) {
       return -ret;
     }
@@ -101,7 +107,9 @@ class Reader {
     do {
       ret = ret * 10L + c - '0';
     } while ((c = read()) >= '0' && c <= '9');
-    consumeSpaces();
+    if (consume) {
+      consumeSpaces();
+    }
     if (neg) {
       return -ret;
     }
@@ -125,7 +133,9 @@ class Reader {
         ret += (c - '0') / (div *= 10);
       }
     }
-    consumeSpaces();
+    if (consume) {
+      consumeSpaces();
+    }
     if (neg) {
       return -ret;
     }
